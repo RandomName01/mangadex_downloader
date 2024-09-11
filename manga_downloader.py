@@ -51,7 +51,7 @@ for i, chapter in enumerate(r_chaps.json()["data"]):
     print("got image references")
 
     # Making a folder to store the images in.
-    three_digit_i = "00"+str(i+1)[-3:]
+    three_digit_i = ("00"+str(i+1))[-3:]
     folder_path = f"mangas/{manga_title}"
     chapter_path = folder_path + f"/{three_digit_i}_{chapter["attributes"]["title"]}"
     os.makedirs(chapter_path, exist_ok=True)
@@ -80,7 +80,11 @@ for i, chapter in enumerate(r_chaps.json()["data"]):
         pdf_path, "PDF" ,resolution=100.0, save_all=True, append_images=images[1:]
     )
     print("converted into pdf")
-    print(f"Succesfully downloaded chapter {i+1}")
+
+    for page in data:
+        os.remove(f"{chapter_path}/{page}")
+    os.rmdir(chapter_path)
+
+
+    print(f"Succesfully downloaded chapter {i+1} to {chapter_path}")
     print()
-
-
