@@ -37,8 +37,10 @@ r_chaps = requests.get(
 print(".")
 print(".")
 print(".")
+
 for i, chapter in enumerate(r_chaps.json()["data"]):
-    print(f"Chapter {i+1}:")
+    chapter_num = chapter["attributes"]["chapter"]
+    print(f"Chapter {chapter_num}:")
     #GETting chapter data & page ids
     r_img = requests.get(f"{base_url}/at-home/server/{chapter["id"]}")
 
@@ -51,7 +53,7 @@ for i, chapter in enumerate(r_chaps.json()["data"]):
     print("got image references")
 
     # Making a folder to store the images in.
-    three_digit_i = ("00"+str(i+1))[-3:]
+    three_digit_i = ("00"+chapter_num)[-3:]
     folder_path = f"mangas/{manga_title}"
     chapter_path = folder_path + f"/{three_digit_i}_{chapter["attributes"]["title"]}"
     os.makedirs(chapter_path, exist_ok=True)
